@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+
+
 public class FileTasks {
-    boolean verify;
     String name;
+    boolean verify;
     public void CreateFile(String fileName){
         File f = new File(fileName);
         try {
@@ -18,47 +20,54 @@ public class FileTasks {
             e.printStackTrace();
         }
     }
-    public void ReadNameFile(){
+    public void enterName(){
         Scanner userNameScanner = new Scanner(System.in);
         System.out.println("Enter Name:");
-
         name = userNameScanner.nextLine();
-        File f = new File("nameHolder.txt");
+        userNameScanner.close();
+        this.WriteToFile("nameHolder.txt", name);
+    }
+    public void nameCheck(){
         try {
-            Scanner nameReadScanner = new Scanner(f);
-            while (nameReadScanner.hasNextLine()){
-                String data = nameReadScanner.nextLine();
+            File f = new File("nameHolder.txt");
+            Scanner readScanner = new Scanner(f);
+            while (readScanner.hasNextLine()){
+                String data = readScanner.nextLine();
                 if (data == name){
                     System.out.println("Verified");
-                    this.verify = true;
-                    nameReadScanner.close();
+                    verify = true;
+                    readScanner.close();
                     break;
                 }
             }
-            if (verify != true){
+            if (verify == false) {
                 System.out.println("New user detected.");
                 this.WriteToFile("nameHolder.txt", name);
-            } else{
+            } 
+        } catch (FileNotFoundException e){
+        System.out.println("This file does not exist");
+        e.printStackTrace();
+    }
+}
+    public void schedOverview(){
                 File file = new File("Schedule.txt");
                 if (file.exists());
-                    System.out.println("Do you want to update or check your schedule?");
+                    System.out.println("Do you want to update, check, or clear your schedule?");
                     Scanner schedScanner = new Scanner(System.in);
                     String updateOrCheckt = schedScanner.nextLine();
                     String updateOrCheck = updateOrCheckt.toLowerCase();
                     if (updateOrCheck == "update"){
                         this.UpdateSched("Schedule.txt");
-                    } else {
+                    } else if (updateOrCheck == "check") {
                         this.CheckSched("Schedule.txt");
+                    } else if (updateOrCheck == "clear") {
+                        this.ClearSched("Schedule.txt");
+                    } else {
+                        System.out.println("an error occurred with the schedule handling");
                     }
                     schedScanner.close();
  
             }
-        } catch (FileNotFoundException e){
-            System.out.println("This file does not exist");
-            e.printStackTrace();
-        }
-        userNameScanner.close();
-    }
     public void WriteToFile(String fileName, String x){
         try{
             FileWriter myWriter = new FileWriter(fileName);
@@ -120,4 +129,3 @@ public class FileTasks {
             }
         }
 }
-
