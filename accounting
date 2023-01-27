@@ -1,0 +1,83 @@
+import sys
+
+def PayCheckCalc():
+    print("(Hourly) Pay Check Calculator")
+    print("\n")
+
+
+    print("Hours Worked:")
+    hoursWorked = float(input())
+    print("Pay Rate:")
+    payRate = float(input())
+    gross = hoursWorked * payRate
+    amtRemoved = gross * .1
+    total = gross - amtRemoved
+    print("Expected Total Pay:" , total)
+    print("Amount Deducted:" , amtRemoved)
+    again = input("\nDo you want to calc again?: ").lower()
+    if again == "yes":
+        pass
+    else: 
+        run = False
+def InitFiles():
+    create = open("spent.txt", "w")
+    create.write("0")
+    create.close()
+    create = open("budget.txt", "w")
+    create.write("0")
+    create.close()
+def Accounting():
+    print("Accounting Program")
+    # reads spent text file and converts to an int
+    f = open("spent.txt", "r")
+    readExpenses = f.read()
+    currentExpenses = int(readExpenses)
+    f.close()
+    
+    # reads budget text file and converts to an int
+    f = open("budget.txt", "r")
+    readBudget = f.read()
+    monthBudget = int(readBudget)
+    f.close()
+    
+    # prints expenses and budget for the month + remaining $ to spend
+    print("Current Monthly Amount Spent:" , currentExpenses)
+    print("Current Monthly Budget:" , monthBudget)
+    remaining = int(monthBudget) - int(currentExpenses)
+    print("Monthly Amount Remaining:" , remaining)
+    
+    # asks if user wants to change anything
+    isUpExpense = input("Would u like to update your expenses?: ").lower()
+    if (isUpExpense != "yes"):
+        run = False
+    else:
+        addOrChange = input("Add expenses or change budget?: ").lower()
+        if (addOrChange == ("change" or "change budget")):
+            setBudget = input("Set monthly budget: ")
+            f = open("budget.txt", "w")
+            f.write(setBudget)
+            f.close()
+            print("New budget set to: " + setBudget)
+            run = False
+        elif (addOrChange == ("add" or "add expenses")):
+            f = open("spent.txt", "w")
+            addExpenses = int(input("Add expenses: "))
+            tempExpend = addExpenses + currentExpenses
+            f.write(str(tempExpend))
+            f.close()
+            print("New monthly amount spent:" , tempExpend)
+            run = False
+        else:
+            print("Invalid input")
+        
+
+# runs the functions
+run = True
+calcOrAccount = input("Do you want to use pay check calculator or accounting program? \n (calc or acccounting)").lower()
+while (run == True):
+    if (calcOrAccount == "accounting"):
+        Accounting()
+    elif (calcOrAccount == "calc"):
+        PayCheckCalc()
+    else:
+        print("Invalid input")
