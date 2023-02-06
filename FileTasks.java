@@ -33,7 +33,7 @@ public class FileTasks {
             Scanner readScanner = new Scanner(f);
             while (readScanner.hasNextLine()){
                 String data = readScanner.nextLine();
-                if (data == name){
+                if (data.equals(name)){
                     System.out.println("Verified");
                     verify = true;
                     readScanner.close();
@@ -56,11 +56,11 @@ public class FileTasks {
                     Scanner schedScanner = new Scanner(System.in);
                     String updateOrCheckt = schedScanner.nextLine();
                     String updateOrCheck = updateOrCheckt.toLowerCase();
-                    if (updateOrCheck == "update"){
+                    if (updateOrCheck.equals("update")){
                         this.UpdateSched("Schedule.txt");
-                    } else if (updateOrCheck == "check") {
+                    } else if (updateOrCheck.equals("check")) {
                         this.CheckSched("Schedule.txt");
-                    } else if (updateOrCheck == "clear") {
+                    } else if (updateOrCheck.equals("clear")) {
                         this.ClearSched("Schedule.txt");
                     } else {
                         System.out.println("an error occurred with the schedule handling");
